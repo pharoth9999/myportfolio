@@ -3,48 +3,68 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Random Color Generator</title>
+    <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
-  <body
-    class="flex items-center justify-center min-h-screen bg-white transition-colors duration-500"
-  >
-    <div class="w-96 bg-white shadow-lg rounded-lg p-6 text-center">
-      <h2 class="text-xl font-bold mb-4">Random Color Generator</h2>
-
-      <div
-        id="color-box"
-        class="py-4 text-lg font-semibold bg-black text-white rounded-lg mb-4"
-      >
-        Background Color: <span id="color-code">#FFFFFF</span>
-      </div>
-
-
-      <div class="space-x-2">
-        <button
-          onclick="colorGenerator.generate()"
-          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
+  <body>
+    <div
+      class="w-[300px] h-[500px] bg-gray-200 border-2 border-black flex justify-center items-center m-auto mt-10 shadow-lg"
+    >
+      <div id="background" class="w-[280px] h-[480px] bg-white">
+        <div
+          class="w-full h-[30px] bg-white flex justify-start items-center pl-2"
         >
-          GENERATE
-        </button>
-        <button
-          onclick="colorGenerator.reset()"
-          class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition"
+          <h1 class="text-blue-500 text-[14px] font-semibold">
+            Random Color Generator
+          </h1>
+        </div>
+        <div
+          class="w-[272px] h-[120px] bg-black ml-1 p-2 flex flex-col justify-around items-center"
         >
-          RESET
-        </button>
-      </div>
-
-      <div class="mt-6">
-        <h3 class="text-lg font-semibold mb-2">Color History:</h3>
-        <div id="color-history" class="text-left space-y-2"></div>
+          <div>
+            <h1 class="text-white text-[25px] font-bold">Background Color :</h1>
+          </div>
+          <div>
+            <h1 id="color-code" class="text-white text-[25px] font-bold">
+              #FFFFFF
+            </h1>
+          </div>
+        </div>
+        <div class="flex justify-center items-center w-full h-[50px]">
+          <button
+            onclick="colorGenerator.generate()"
+            class="bg-black border-2 border-black rounded-sm text-white font-semibold p-1 mr-1"
+          >
+            GENERATE
+          </button>
+          <button
+            onclick="colorGenerator.reset()"
+            class="border-2 border-black rounded-sm font-semibold p-1 ml-1"
+          >
+            RESET
+          </button>
+        </div>
+        <div class="w-full h-[170px] bg-white">
+          <div
+            id="record"
+            class="text-left space-y-2 pl-2 text-[13px] pt-1"
+          ></div>
+        </div>
       </div>
     </div>
-
     <script>
       class Color {
         constructor() {
           this.records = [];
+        }
+
+        generate() {
+          let newColor = `#${this.getRandomNumber()}`;
+          document.getElementById("background").style.backgroundColor =
+            newColor;
+          document.getElementById("color-code").innerText = newColor;
+          this.records.push(newColor);
+          this.updateHistory();
         }
 
         getRandomNumber() {
@@ -54,17 +74,8 @@
             .toUpperCase();
         }
 
-        generate() {
-          let newColor = `#${this.getRandomNumber()}`;
-          document.body.style.backgroundColor = newColor;
-          document.getElementById("color-code").innerText = newColor;
-
-          this.records.push(newColor);
-          this.updateHistory();
-        }
-
         updateHistory() {
-          let historyDiv = document.getElementById("color-history");
+          let historyDiv = document.getElementById("record");
           historyDiv.innerHTML = "";
           this.records
             .slice(-6)
@@ -72,20 +83,21 @@
             .forEach((color) => {
               let div = document.createElement("div");
               div.className = "flex items-center space-x-2";
-              div.innerHTML = `<div class="w-5 h-5 rounded" style="background: ${color};"></div> <span>${color}</span>`;
+              div.innerHTML = `<span>${color}</span> <div class="w-4 h-4 rounded" style="background: ${color};"></div>`;
               historyDiv.appendChild(div);
             });
         }
 
         reset() {
           this.records = [];
-          document.getElementById("color-history").innerHTML = "";
-          document.body.style.backgroundColor = "#FFFFFF";
+          document.getElementById("record").innerHTML = "";
+          document.getElementById("background").style.backgroundColor =
+            "#FFFFFF";
           document.getElementById("color-code").innerText = "#FFFFFF";
         }
       }
 
-      const colorGenerator = new Color();
+      let colorGenerator = new Color();
     </script>
   </body>
 </html>

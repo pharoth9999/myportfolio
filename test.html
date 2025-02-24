@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Color Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-white transition-colors duration-500">
+
+    <div class="w-96 bg-white shadow-lg rounded-lg p-6 text-center">
+        <h2 class="text-xl font-bold mb-4">Random Color Generator</h2>
+
+        <!-- Display generated color -->
+        <div id="color-box" class="py-4 text-lg font-semibold bg-black text-white rounded-lg mb-4">
+            Background Color: <span id="color-code">#FFFFFF</span>
+        </div>
+
+        <!-- Buttons -->
+        <div class="space-x-2">
+            <button onclick="colorGenerator.generate()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                GENERATE
+            </button>
+            <button onclick="colorGenerator.reset()" class="px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500 transition">
+                RESET
+            </button>
+        </div>
+
+        <!-- History Section -->
+        <div class="mt-6">
+            <h3 class="text-lg font-semibold mb-2">Color History:</h3>
+            <div id="color-history" class="text-left space-y-2"></div>
+        </div>
+    </div>
+
+    <script>
+        class Color {
+            constructor() {
+                this.records = [];
+            }
+
+            getRandomNumber() {
+                return Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0').toUpperCase();
+            }
+
+            generate() {
+                let newColor = `#${this.getRandomNumber()}`;
+                document.body.style.backgroundColor = newColor;
+                document.getElementById("color-code").innerText = newColor;
+                
+                this.records.push(newColor);
+                this.updateHistory();
+            }
+
+            updateHistory() {
+                let historyDiv = document.getElementById("color-history");
+                historyDiv.innerHTML = "";
+                this.records.slice(-6).reverse().forEach(color => {
+                    let div = document.createElement("div");
+                    div.className = "flex items-center space-x-2";
+                    div.innerHTML = `<div class="w-5 h-5 rounded" style="background: ${color};"></div> <span>${color}</span>`;
+                    historyDiv.appendChild(div);
+                });
+            }
+
+            reset() {
+                this.records = [];
+                document.getElementById("color-history").innerHTML = "";
+                document.body.style.backgroundColor = "#FFFFFF";
+                document.getElementById("color-code").innerText = "#FFFFFF";
+            }
+        }
+
+        const colorGenerator = new Color();
+    </script>
+
+</body>
+</html>
