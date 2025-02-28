@@ -64,8 +64,9 @@ export default function Home() {
           <div>
             <div className="flex flex-col justify-center items-start m-10 pl-5">
               <p className="text-lg poppins-regular">
-                I am a Year 3 student in Computer Science at ITC. I am passionate about technology and
-                programming, and I am always looking to learn new things.
+                I am a Year 3 student in Computer Science at ITC. I am
+                passionate about technology and programming, and I am always
+                looking to learn new things.
               </p>
             </div>
           </div>
